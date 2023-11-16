@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>  منصة الجامع</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script>
+        function showHideRow(row) {
+            $(".hidden_row").not("#" + row).hide();
+            $("#" + row).toggle();
+        }
+    </script>
+</head>
+<body dir="rtl">
+
+  <nav class=" border-gray-200  bg-blue-50">
+    <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto p-4">
+      <a href="" class="flex items-center">
+        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 ml-3" alt="Flowbite Logo" />
+        <span class="self-center text-blue-700 text-2xl font-semibold whitespace-nowrap dark:text-white">منصة الجامع</span>
+       </a>
+        </div>
+
+  </nav>
+
+
+<div id="popup-modal-delete" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal-delete">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <svg class="mx-auto mb-4 text-red-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
+                <h2 class="mb-1 text-lg font-medium text-gray-500 dark:text-gray-400">تنبيه</h2>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">هل انت متأكد من حذف المعلم؟</h3>
+                <button data-modal-hide="popup-modal-delete" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                  تأكيد 
+                </button>
+                <button data-modal-hide="popup-modal-delete" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">إلغاء</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="popup-modal-update" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal-update">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+              <form class="space-y-6" method="post" action="#">
+                <div>
+                  <label for="teacher" class="block mb-2 mt-6 text-sm font-medium text-gray-900 dark:text-white">معلم الحلقة</label>
+                      <select  name='teacher' id='countries' class='bg-gray-50  border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full py-2.5' required >";
+                           <option value='اسم المعلم'> اسم المعلم</option>
+                           <option value='اسم المعلم'> اسم المعلم</option>
+                       </select>
+                  </div>
+                <div>
+                  <label for="name" class="block mb-2 mt-4 text-sm font-medium text-gray-900 dark:text-white">اسم الحلقة</label>
+                  <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="ادخل اسم المعلم" required>
+                </div>
+                  <div>
+                      <label for="grade" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">المراحلة الدراسية</label>
+                      <select  name="study" id="countries" class="bg-gray-50  border border-blue-300 text-blue-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 w-full py-2.5" required >
+                              <option value="ابتدائي">ابتدائي</option>
+                              <option value="اعدادي">اعدادي</option>
+                              <option value="ثانوي">ثانوي</option>
+                       </select>
+                  </div>
+                  <button type="submit" name="addring" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    حفظ
+                  </button>
+  
+                  </form>
+          </div>
+        </div>
+    </div>
+</div>
+
+
+ <aside class="top-0 z-10 w-64 h-screen transition-transform right-0 -translate-x-full sm:translate-x-0 fixed">
+  <div class="h-full px-3 py-4 overflow-y-auto  bg-blue-50 dark:bg-gray-800">
+     <a href="#" class="flex items-center pl-2.5 mb-20 mt-6">
+        <img src="https://flowbite.com/docs/images/logo.svg" class="h-6 mx-4 sm:h-7" alt="Flowbite Logo" />
+        <span class="text-blue-700 self-center text-xl font-semibold whitespace-nowrap dark:text-white">منصة الجامع</span>
+     </a>
+
+
+  </div>
+</aside>
+
+
+<main class="h-screen overflow-y-auto relative  bg-blue-50">
+
+<div  id="Myh2" class="flex mt-24 mr-3  lg:ml-8 justify-between">
+   <h2 id="h" class="text-xl font-bold mt-2 mb-4 text-blue-900 dark:text-white">
+    المعلمين
+   </h2>
+  
+         
+   <div  class="relative h-12 lg:ml-20 ml-4 mr-auto">
+    <div id="h"  class="absolute  inset-y-0 left-0 flex items-center pl-3">
+        <svg class="w-4 pb-2 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+        </svg>
+    </div>
+    <input type="text"  class="shadow-lg block w-full  h-10 pl-8 py-2 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="ابحث عن طالب" required>
+</div>
+
+
+
+   
+
+   
+  
+</div>
+<!-- component -->
+<h2 id="Myh2" class=" text-xl  text-blue-700 dark:text-white mr-3 mt-2">
+   912 طالب 
+   <span class="text-sm text-blue-700 dark:text-white">
+      | فرز حسب من الألف الى الياء
+   </span>
+</h2>
+
+
+<div  id="fortable" class=" rounded-lg m-5">
+   <table class="w-full border-collapse bg-white lg:mr-0 text-left text-sm text-gray-500" style="width:92%">
+     <thead class="bg-blue-50">
+       <tr>
+         <th scope="col" class="lg:px-6 px-4 py-4 font-medium text-blue-600 text-center">اسم الطالب</th>
+         <th scope="col" class="lg:px-6 px-4 py-4 font-medium text-blue-600 text-center"> المستوى</th>
+         <th scope="col" class="lg:px-6 px-6 py-4 font-medium text-blue-600 text-center">الدرس </th>
+         <th scope="col" class="lg:px-6 px-6 py-4 font-medium text-blue-600 text-center">المراجعة </th>
+         <th scope="col" class="lg:px-6  py-4 font-medium text-blue-600 text-center">أيام الغياب </th>
+       </tr>
+     </thead>
+     <tbody class="divide-y divide-gray-100">
+      <tr class="hover:bg-gray-50" onclick="showHideRow(`1`);">
+        <th class="text-blue-900 text-center font-normal lg:px-6  py-4">
+               محمد أحمد محمود
+        </th>
+        <td class="lg:px-6  py-4 text-blue-900 font-normal text-center">
+          ابن عثيمين
+        </td>
+        <td class="lg:px-6 py-4 text-blue-900 text-center">الرابع ابتدائي</td>
+        <td class="lg:px-6 py-5 text-blue-900 text-center">الرابع ابتدائي</td>
+        <td class="lg:px-6 py-4">
+          <div class="text-center text-blue-900">
+             12
+          </div>
+        </td>
+      </tr>
+      <tr id='1' class='hidden_row hidden'  data-index='1'>
+        <td colspan=5 class="lg:px-6">
+
+       <form class='space-y-6'>
+          <center>
+          <button id='greenButton' type='button' class='mt-4 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800'>حاضر</button>
+          <button id='redButton' type='button' class='mt-4 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900'>غائب</button>
+          <button id='yellowButton' type='button' class='mt-4 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900'>متأخر</button>
+          <button id='blueButton' type='button' class='mt-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'>معتذر</button>
+          </center>
+
+          <input name='forbtn' value='' hidden>
+          <input name='forbtn2' value='' hidden>
+          <input name='forbtn3' value='' hidden>
+          <input type='hidden' name='button_id' value=''>
+          <div class='grid grid-cols-2 grid-rows-2 px-0  gap-4' >
+            <div class='relative  space-y-6'>
+              <label for='first_name' class='absolute right-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'>الدرس</label>
+              <div class='lg:grid lg:grid-cols-3 lg:gap-16 lg:mt-8 bg-blue-50'>
+                <input type='text' class='lg:col-span-2 lg:w-auto w-full bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="من سورة الناس أية 4 الى سورة أعلى أية 5" required>
+                <div id='nd' class=" flex absolute lg:mt-0 mt-3 lg:left-0">
+                   <button id='ten' type='button' name='button_id' value='10' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>10</span>
+                   </button>
+                   <button id='nine' type='button' name='button_id' value='9' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>9</span>
+                   </button>
+                   <button  id='eight' type='button' name='button_id' value='8' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>8</span>
+                   </button>
+                   <button  id='zero' type='button' name='button_id' value='0' class='ml-1 text-red-700 border border-red-700 hover:bg-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800 dark:hover:bg-red-500'>
+                   <span class=''>0</span>
+                   </button>
+                  </div> 
+                </div>
+              </div>
+            <div class='relative  space-y-6'>
+              <label for='first_name' class='absolute right-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'>المراجعة</label>
+              <div class='lg:grid grid-cols-3 gap-16 mt-8  bg-blue-50'>
+                <input type='text' id='first_name' class='lg:col-span-2 lg:w-auto w-full bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="من سورة الناس أية 4 الى سورة أعلى أية 5" required>
+                <div id='st' class="flex absolute lg:mt-0 mt-3 lg:left-0">
+                   <button id='ten' type='button' name='button_id' value='10' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>10</span>
+                   </button>
+                   <button id='nine' type='button' name='button_id' value='9' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>9</span>
+                   </button>
+                   <button  id='eight' type='button' name='button_id' value='8' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>8</span>
+                   </button>
+                   <button  id='zero' type='button' name='button_id' value='0' class='ml-1 text-red-700 border border-red-700 hover:bg-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800 dark:hover:bg-red-500'>
+                   <span class=''>0</span>
+                   </button>
+                  </div> 
+                </div>
+              </div>
+            <div class='relative space-y-6 lg:mt-0 mt-5'>
+               <label for='first_name' class='absolute right-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'> عجز الدرس </label>
+               <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="3 أسطر"> 
+              </div>
+            <div class='relative space-y-6 lg:mt-0 mt-5'>
+               <label for='first_name' class='absolute mx-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'> عجز المراجعة</label>
+               <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="3 أسطر"> 
+
+              </div>
+
+          </div>
+              <button style='margin-bottom:1.5%;' type='submit' name='uplesson' class='ml-4 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm px-8 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>حفظ</button>
+            
+        </form>
+
+        </td>
+</tr>
+      <tr class="hover:bg-gray-50" onclick="showHideRow(`2`);">
+        <th class="text-blue-900 text-center font-normal lg:px-6 py-4">
+               محمد أحمد محمود
+        </th>
+        <td class="lg:px-6 py-4 text-blue-900 font-normal text-center">
+          ابن عثيمين
+        </td>
+        <td class="lg:px-6 py-4 text-blue-900 text-center">الرابع ابتدائي</td>
+        <td class="lg:px-6 py-4 text-blue-900 text-center">الرابع ابتدائي</td>
+        <td class="lg:px-6 py-4">
+          <div class="text-center text-blue-900">
+             12
+          </div>
+        </td>
+      </tr>
+      <tr id='2' class='hidden_row hidden'  data-index='2'>
+        <td colspan=5 class="lg:px-6">
+
+       <form class='space-y-6'>
+          <center>
+          <button id='greenButton' type='button' class='mt-4 text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800'>حاضر</button>
+          <button id='redButton' type='button' class='mt-4 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900'>غائب</button>
+          <button id='yellowButton' type='button' class='mt-4 text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900'>متأخر</button>
+          <button id='blueButton' type='button' class='mt-4 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-12 py-2.5 text-center mr-2 mb-2 mx-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800'>معتذر</button>
+          </center>
+
+          <input name='forbtn' value='' hidden>
+          <input name='forbtn2' value='' hidden>
+          <input name='forbtn3' value='' hidden>
+          <input type='hidden' name='button_id' value=''>
+          <div class='grid grid-cols-2 grid-rows-2 px-0  gap-4' >
+            <div class='relative space-y-6'>
+              <label for='first_name' class='absolute right-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'>الدرس</label>
+              <div class='grid grid-cols-3 gap-16 mt-8  bg-blue-50'>
+                <input type='text' id='first_name' class='col-span-2 bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="من سورة الناس أية 4 الى سورة أعلى أية 5" required>
+                <div id='nd' class=" flex absolute left-0">
+                   <button id='ten' type='button' name='button_id' value='10' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>10</span>
+                   </button>
+                   <button id='nine' type='button' name='button_id' value='9' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>9</span>
+                   </button>
+                   <button  id='eight' type='button' name='button_id' value='8' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>8</span>
+                   </button>
+                   <button  id='zero' type='button' name='button_id' value='0' class='ml-1 text-red-700 border border-red-700 hover:bg-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800 dark:hover:bg-red-500'>
+                   <span class=''>0</span>
+                   </button>
+                  </div> 
+                </div>
+              </div>
+            <div class='relative space-y-6'>
+              <label for='first_name' class='absolute right-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'>المراجعة</label>
+              <div class='grid grid-cols-3 gap-16 mt-8  bg-blue-50'>
+                <input type='text' id='first_name' class='col-span-2 bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder="من سورة الناس أية 4 الى سورة أعلى أية 5" required>
+                <div id='st' class="flex absolute left-0">
+                   <button id='ten' type='button' name='button_id' value='10' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>10</span>
+                   </button>
+                   <button id='nine' type='button' name='button_id' value='9' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>9</span>
+                   </button>
+                   <button  id='eight' type='button' name='button_id' value='8' class='ml-1 text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500'>
+                   <span class=''>8</span>
+                   </button>
+                   <button  id='zero' type='button' name='button_id' value='0' class='ml-1 text-red-700 border border-red-700 hover:bg-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm p-2 px-3.5 text-center inline-flex items-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800 dark:hover:bg-red-500'>
+                   <span class=''>0</span>
+                   </button>
+                  </div> 
+                </div>
+              </div>
+            <div class='relative space-y-6'>
+               <label for='first_name' class='absolute right-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'> عجز الدرس </label>
+               <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="3 أسطر"> 
+              </div>
+            <div class='relative space-y-6'>
+               <label for='first_name' class='absolute mx-0 block mb-2 text-sm font-medium text-blue-700 dark:text-white'> عجز المراجعة</label>
+               <input type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="3 أسطر"> 
+
+              </div>
+
+          </div>
+              <button style='margin-bottom:1.5%;' type='submit' name='uplesson' class='ml-4 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-full text-sm px-8 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>حفظ</button>
+            
+        </form>
+
+        </td>
+</tr>
+
+    </tbody>
+   </table>
+ </div>
+ 
+ <div class="fixed bottom-0 lg:left-24 left-4 lg:mb-4 mb-8 mr-4">
+  <button id="open-chat" class="bg-blue-600 text-white py-4 px-4 rounded-full hover:bg-blue-700 transition duration-300 flex items-center">
+    <svg class="w-6 h-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 5h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-2v3l-4-3H8m4-13H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h2v3l4-3h4a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z"/>
+    </svg>
+  </button>
+</div>
+<div id="chat-container" class="fixed lg:bottom-20 lg:left-24 bottom-24 left-2 lg:w-96 w-92">
+  <div class="bg-white shadow-md rounded-lg max-w-lg w-full">
+      <div class="p-4 border-b bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
+          <p class="text-medium font-semibold">اسم المشرف</p>
+          <button id="close-chat" class="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+          </button>
+      </div>
+      <div id="chatbox" class="p-4 h-80 overflow-y-auto">
+        <!-- if there is no message
+        <div class="text-center relative top-32">
+        ابدا الدردشة الان
+        </div>  -->
+        <div class="mb-2 text-right">
+          <p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">اهلا</p>
+        </div>
+        <div class="mb-2 text-left">
+          <p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">السلام عليكم</p>
+        </div>
+        <div class="mb-2 text-right">
+          <p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">كيف أمور عساك طيب</p>
+        </div>
+        <div class="mb-2 text-left">
+          <p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
+            إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.</p>
+        </div>
+        <div class="mb-2 text-right">
+          <p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi at repudiandae architecto placeat vel tenetur est dolore consequatur fuga voluptas quis odit perspiciatis repellat, rerum magni esse, omnis totam! Dolores.</p>
+        </div>
+        <div class="mb-2 text-left">
+          <p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">الحمدالله.</p>
+        </div>
+      </div>
+      <div class="p-4 border-t flex">
+          <input id="user-input" type="text" placeholder="اكتب رسالة هنا" class="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <button id="send-button" class="bg-blue-500 text-white px-4 py-2 rounded-l-md hover:bg-blue-600 transition duration-300">إرسال</button>
+      </div>
+  </div>
+</div>
+<script>
+  const chatbox = document.getElementById("chatbox");
+const chatContainer = document.getElementById("chat-container");
+const userInput = document.getElementById("user-input");
+const sendButton = document.getElementById("send-button");
+const openChatButton = document.getElementById("open-chat");
+const closeChatButton = document.getElementById("close-chat");
+
+let isChatboxOpen = true; // Set the initial state to open
+
+// Function to toggle the chatbox visibility
+function toggleChatbox() {
+chatContainer.classList.toggle("hidden");
+isChatboxOpen = !isChatboxOpen; // Toggle the state
+}
+
+// Add an event listener to the open chat button
+openChatButton.addEventListener("click", toggleChatbox);
+
+// Add an event listener to the close chat button
+closeChatButton.addEventListener("click", toggleChatbox);
+
+// Add an event listener to the send button
+sendButton.addEventListener("click", function () {
+const userMessage = userInput.value;
+if (userMessage.trim() !== "") {
+  addUserMessage(userMessage);
+  respondToUser(userMessage);
+  userInput.value = "";
+}
+});
+
+userInput.addEventListener("keyup", function (event) {
+if (event.key === "Enter") {
+  const userMessage = userInput.value;
+  addUserMessage(userMessage);
+  respondToUser(userMessage);
+  userInput.value = "";
+}
+});
+
+function addUserMessage(message) {
+const messageElement = document.createElement("div");
+messageElement.classList.add("mb-2", "text-right");
+messageElement.innerHTML = `<p class="bg-blue-500 text-white rounded-lg py-2 px-4 inline-block">${message}</p>`;
+chatbox.appendChild(messageElement);
+chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function addBotMessage(message) {
+const messageElement = document.createElement("div");
+messageElement.classList.add("mb-2");
+messageElement.innerHTML = `<p class="bg-gray-200 text-gray-700 rounded-lg py-2 px-4 inline-block">${message}</p>`;
+chatbox.appendChild(messageElement);
+chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+function respondToUser(userMessage) {
+// Replace this with your chatbot logic
+setTimeout(() => {
+  addBotMessage("This is a response from the chatbot.");
+}, 500);
+}
+
+// Automatically open the chatbox on page load
+toggleChatbox();
+
+  </script>
+  <script>
+ const buttons = document.querySelectorAll("center button");
+ const buttons2 = document.querySelectorAll("#st button");
+ const buttons3 = document.querySelectorAll("#nd button");
+ var forbtnInput = document.querySelectorAll("input[name='forbtn']");
+ var forbtnInput2 = document.querySelectorAll("input[name='forbtn2']");
+ var forbtnInput3 = document.querySelectorAll("input[name='forbtn3']");
+ buttons.forEach((button) => {
+   button.addEventListener("click", () => {
+      var tr = button.closest("tr"); 
+      var index = tr.getAttribute("data-index");
+
+        // Reset the background color of all buttons
+        buttons.forEach((btn) => {
+            btn.classList.remove("bg-blue-800", "bg-yellow-500", "bg-green-800", "bg-red-800");
+        });
+
+        // Reset the text color of all buttons
+        buttons.forEach((btn) => {
+            btn.classList.remove("text-pink-50","text-blue-50","bg-blue-700");
+        });
+        // Set the background color and text color of the clicked button based on its ID
+        if (button.id === "blueButton") {
+            button.classList.add("bg-blue-800");
+            button.classList.add("text-pink-50");
+            forbtnInput[index].value = "معتذر";
+        } else if (button.id === "yellowButton") {
+            button.classList.add("bg-yellow-500");
+            button.classList.add("text-blue-50");
+            forbtnInput[index].value = "متأخر";
+        } else if (button.id === "greenButton") {
+            button.classList.add("bg-green-800");
+            button.classList.add("text-blue-50");
+            forbtnInput[index].value = "حاضر";
+        } else if (button.id === "redButton") {
+            button.classList.add("bg-red-800");
+            button.classList.add("text-blue-50");
+            forbtnInput[index].value = "غائب";
+        }
+    });
+});
+// ------------------------
+ buttons2.forEach((button) => {
+   button.addEventListener("click", () => {
+        var tr2 = button.closest("tr");
+        var index2 = tr2.getAttribute("data-index");
+        
+        // Reset the background color of all buttons
+        buttons2.forEach((btn) => {
+            btn.classList.remove("bg-blue-700","bg-red-700");
+        });
+
+        // Reset the text color of all buttons
+        buttons2.forEach((btn) => {
+            btn.classList.remove("text-pink-50","text-blue-50");
+        });
+
+        // Set the background color and text color of the clicked button based on its ID
+        if (button.id === "ten") {
+            button.classList.add("bg-blue-700");
+            button.classList.add("text-pink-50");
+            forbtnInput2[index2].value = "10";
+        } else if (button.id === "nine") {
+            button.classList.add("bg-blue-700");
+            button.classList.add("text-blue-50");
+            forbtnInput2[index2].value = "9";
+        } else if (button.id === "eight") {
+            button.classList.add("bg-blue-700");
+            button.classList.add("text-blue-50");
+            forbtnInput2[index2].value = "8";
+        } else if (button.id === "zero") {
+            button.classList.add("bg-red-700");
+            button.classList.add("text-blue-50");
+            forbtnInput2[index2].value = "0";
+        }
+    });
+});
+// ------------------------
+ buttons3.forEach((button) => {
+   button.addEventListener("click", () => {
+        var tr3 = button.closest("tr");
+        var index3 = tr3.getAttribute("data-index");
+         console.log(tr3)
+         console.log(index3)
+        // Reset the background color of all buttons
+        buttons3.forEach((btn) => {
+            btn.classList.remove("bg-blue-700","bg-red-700");
+        });
+
+        // Reset the text color of all buttons
+        buttons3.forEach((btn) => {
+            btn.classList.remove("text-pink-50","text-blue-50");
+        })
+        // Set the background color and text color of the clicked button based on its ID
+        if (button.id === "ten") {
+            button.classList.add("bg-blue-700");
+            button.classList.add("text-pink-50");
+            forbtnInput3[index3].value = "10";
+        } else if (button.id === "nine") {
+            button.classList.add("bg-blue-700");
+            button.classList.add("text-blue-50");
+            forbtnInput3[index3].value = "9";
+        } else if (button.id === "eight") {
+            button.classList.add("bg-blue-700");
+            button.classList.add("text-blue-50");
+            forbtnInput3[index3].value = "8";
+        } else if (button.id === "zero") {
+            button.classList.add("bg-red-700");
+            button.classList.add("text-blue-50");
+            forbtnInput3[index3].value = "0";
+        }
+    });
+});
+</script>
+
+</main>
+
+
+</body>
+</html>
